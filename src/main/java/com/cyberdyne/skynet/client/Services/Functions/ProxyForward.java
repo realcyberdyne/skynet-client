@@ -1,5 +1,7 @@
 package com.cyberdyne.skynet.client.Services.Functions;
 
+import com.cyberdyne.skynet.client.Services.Config.Config;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,7 +11,7 @@ public class ProxyForward
 
 
     //Get constractor function
-    public ProxyForward(int Port)
+    public ProxyForward(String VPNHostAddress,int Port)
     {
         try
         {
@@ -23,7 +25,7 @@ public class ProxyForward
                     public void run() {
                         try
                         {
-                            GetHandleProxy(request);
+                            GetHandleProxy(VPNHostAddress,request);
                         }
                         catch (Exception e)
                         {
@@ -42,12 +44,12 @@ public class ProxyForward
 
 
     //Get handle request from socket
-    public static void GetHandleProxy(Socket request)
+    public static void GetHandleProxy(String VPNHostAddress,Socket request)
     {
         try
         {
             //Get add forward socket
-            Socket ForwardSocket = new Socket("192.168.1.3",8085);
+            Socket ForwardSocket = new Socket(VPNHostAddress, Config.VPNPort);
 
             //Proxy streams
             BufferedWriter BW=new BufferedWriter(new OutputStreamWriter(request.getOutputStream()));

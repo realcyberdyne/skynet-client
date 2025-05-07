@@ -8,6 +8,7 @@ public class Config
 
     //Global variables
     public static int VPNPort;
+    public static int PresentPort;
 
 
     //Get constractor
@@ -22,7 +23,8 @@ public class Config
             properties.load(reader);
 
             //Proxy internal port repository address
-            VPNPort=Integer.parseInt(properties.getProperty("Port").toString());
+            VPNPort=Integer.parseInt(properties.getProperty("VPNPort").toString());
+            PresentPort=Integer.parseInt(properties.getProperty("PresentPort").toString());
 
         }
         catch (Exception e)
