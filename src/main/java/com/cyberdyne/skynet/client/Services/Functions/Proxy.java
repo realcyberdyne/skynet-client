@@ -110,7 +110,7 @@ public class Proxy
                 }
 
                 // Small delay to prevent tight spinning
-                Thread.sleep(10);
+//                Thread.sleep(10);
 
             }
 
