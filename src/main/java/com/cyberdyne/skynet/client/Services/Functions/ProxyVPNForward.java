@@ -5,34 +5,41 @@ import com.cyberdyne.skynet.client.Services.Config.Config;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class ProxyForward
+public class ProxyVPNForward
 {
+
+    private final ExecutorService threadPool;
 
 
     //Get constractor function
-    public ProxyForward(String VPNHostAddress)
+    public ProxyVPNForward(String VPNHostAddress, int Port)
     {
+
+        // Create a thread pool instead of creating unlimited threads
+        threadPool = Executors.newCachedThreadPool();
+
+
         try
         {
-            ServerSocket Server = new ServerSocket(Config.PresentPort);
+            ServerSocket Server = new ServerSocket(Port);
 
             while (true)
             {
                 Socket request=Server.accept();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try
-                        {
-                            GetHandleProxy(VPNHostAddress,request);
-                        }
-                        catch (Exception e)
-                        {
 
-                        }
+                threadPool.submit(()->{
+                    try
+                    {
+                        GetHandleProxy(VPNHostAddress,request);
                     }
-                }).start();
+                    catch (Exception e)
+                    {
+
+                    }
+                });
             }
         }
         catch (Exception e)
